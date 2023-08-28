@@ -1,0 +1,73 @@
+apiVersion: v1alpha1
+kind: AgentConfig
+metadata:
+    name: cls01
+rendezvousIP: 10.6.82.101 
+hosts:
+    - hostname: master-0
+      role: master
+      rootDeviceHints:
+        deviceName: "/dev/sda"
+      interfaces:
+        - name: eno1
+          macAddress: 00:ef:44:21:e6:a5 
+      networkConfig:
+        interfaces:
+          - name: eno1
+            type: ethernet
+            state: up
+            mac-address: 00:ef:44:21:e6:a5
+            ipv4:
+              enabled: true
+              address:
+                - ip: 10.6.82.101 
+                  prefix-length: 23 
+              dhcp: false
+        dns-resolver:
+          config:
+            server:
+              - 10.6.82.10 
+        routes:
+          config:
+            - destination: 0.0.0.0/0
+              next-hop-address: 10.6.82.1 
+              next-hop-interface: eno1
+              table-id: 254
+    - hostname: master-1
+      role: master
+...
+    - hostname: master-2
+      role: master
+...
+    - hostname: worker-0
+      role: worker
+      rootDeviceHints:
+        deviceName: "/dev/sda"
+      interfaces:
+        - name: eno1
+          macAddress: 00:ef:44:21:e6:a6 
+      networkConfig:
+        interfaces:
+          - name: eno1
+            type: ethernet
+            state: up
+            mac-address: 00:ef:44:21:e6:a6
+            ipv4:
+              enabled: true
+              address:
+                - ip: 10.6.82.121 
+                  prefix-length: 23 
+              dhcp: false
+        dns-resolver:
+          config:
+            server:
+              - 10.6.82.10 
+        routes:
+          config:
+            - destination: 0.0.0.0/0
+              next-hop-address: 10.6.82.1 
+              next-hop-interface: eno1
+              table-id: 254
+    - hostname: worker-1
+      role: master
+...
