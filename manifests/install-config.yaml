@@ -1,0 +1,38 @@
+apiVersion: v1
+baseDomain: testline.ocp 
+compute: 
+- name: worker
+  replicas: 2 
+controlPlane: 
+  name: master
+  replicas: 3 
+metadata:
+  name: cls01 
+networking:
+  clusterNetwork:
+  - cidr: 10.128.0.0/14 
+    hostPrefix: 23 
+  networkType: OVNKubernetes 
+  serviceNetwork: 
+  - 172.30.0.0/16
+  machineNetwork:
+  - cidr: 10.6.82.0/24
+platform:
+  baremetal:
+    apiVIPs:
+    - 10.6.82.35
+    ingressVIPs:
+    - 10.6.82.45
+pullSecret: '{"auths": ...}' 
+sshKey: 'ssh-ed25519 AAAA...' 
+imageContentSources:
+  - mirrors:
+    - 10.6.82.10:5000/localimages/local-release-image
+    source: quay.io/openshift-release-dev/ocp-v4.0-art-dev
+  - mirrors: 
+    - 10.6.82.10:5000/localimages/local-release-image
+    source: registry.ci.openshift.org/ocp/release
+additionalTrustBundle: |
+  -----BEGIN CERTIFICATE-----
+  zzzzzzzzzzz les CA de la registry interne
+  -----END CERTIFICATE-------
